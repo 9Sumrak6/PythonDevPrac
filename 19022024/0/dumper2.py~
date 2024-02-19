@@ -1,0 +1,10 @@
+import glob
+import zlib
+
+
+for i in glob.iglob(input() + "/??/*"):
+    f = open(i, "rb")
+    a = zlib.decompress(f.read())
+    print(a[4], a)
+    if a[4] == b'blob':
+        print(i)
