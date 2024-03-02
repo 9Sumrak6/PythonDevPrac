@@ -1,13 +1,13 @@
 import cowsay
 
 
-monster = 'default'
 field = [[0 for j in range(10)] for i in range(10)]
 allowed_list = cowsay.list_cows()
 
 
 def encounter(x, y):
-    print(cowsay.cowsay(field[y][x], cow=monster))
+    out = field[y][x].split()
+    print(cowsay.cowsay(out[1], cow=out[0]))
 
 
 x, y = 0, 0
