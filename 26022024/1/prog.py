@@ -9,14 +9,8 @@ def encounter(x, y):
 
 x, y = 0, 0
 
-print(field)
-
 while inp := input():
     inp = inp.split()
-
-    if inp[0] == 'print':
-        print(field)
-        continue
 
     moved = 0
     if inp[0] == 'up':
@@ -35,7 +29,6 @@ while inp := input():
     if moved == 1:
         print(f'Moved to ({x}, {y})')
 
-        print(field[y][x])
         if field[y][x] != 0:
             encounter(x, y)
     else:
@@ -63,6 +56,3 @@ while inp := input():
 
         else:
             print('Invalid command')
-
-
-print(cowsay.cowsay('lala', cow=monster))
