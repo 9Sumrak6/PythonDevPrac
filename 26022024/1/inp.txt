@@ -1,5 +1,0 @@
-addmon 1 0 lala
-right 
-addmon 1 1 blabla
-down
-
