@@ -1,0 +1,5 @@
+import shlex
+
+
+a = shlex.join(shlex.join([input(), input()]))
+print(a)
