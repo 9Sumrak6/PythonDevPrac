@@ -113,7 +113,6 @@ while inp := input():
             if i < 9:
                 continue
 
-
             if field[m_y][m_x] == 0:
                 print(f'Added monster to ({m_x}, {m_y}) saying {hello}')
             else:
