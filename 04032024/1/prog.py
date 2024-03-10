@@ -41,6 +41,11 @@ while inp := input():
                 continue
 
             name = inp[1]
+
+            if inp[1] not in allowed_list:
+                print("Invalid arguments")
+                continue
+
             hello = ''
             hp = 0
             m_x, m_y = 0, 0
