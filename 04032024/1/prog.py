@@ -7,7 +7,10 @@ allowed_list = cowsay.list_cows()
 
 
 def encounter(x, y):
-    print(cowsay.cowsay(field[y][x]['hello'], field[y][x]['name']))
+    hello = field[y][x]['hello']
+    name = field[y][x]['name']
+
+    print(cowsay.cowsay(hello, cow=name))
 
 
 x, y = 0, 0
@@ -42,7 +45,7 @@ while inp := input():
 
             name = inp[1]
 
-            if inp[1] not in allowed_list:
+            if name not in allowed_list:
                 print("Invalid arguments")
                 continue
 
@@ -80,6 +83,11 @@ while inp := input():
                 else:
                     print("Invalid arguments")
                     break
+
+            if field[m_y][m_x] == 0:
+                print(f'Added monster to ({m_x}, {m_y}) saying {inp[4]}')
+            else:
+                print(f'Replaced the old monster')
 
             if i < 9:
                 continue
