@@ -105,11 +105,6 @@ while inp := input():
                     print("Invalid arguments")
                     break
 
-            if field[m_y][m_x] == 0:
-                print(f'Added monster to ({m_x}, {m_y}) saying {inp[4]}')
-            else:
-                print(f'Replaced the old monster')
-
             if i < 9:
                 continue
 
