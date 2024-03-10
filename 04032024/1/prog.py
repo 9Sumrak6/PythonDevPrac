@@ -1,9 +1,6 @@
 import cowsay
-<<<<<<< HEAD
 from io import StringIO
-=======
 import shlex
->>>>>>> 2d642e0 (Add parser)
 
 
 jgsbat = cowsay.read_dot_cow(StringIO("""
@@ -68,6 +65,7 @@ while inp := input():
                 continue
 
             name = inp[1]
+
             if name not in allowed_list and inp[1] not in user_list:
                 print("Invalid arguments")
                 continue
