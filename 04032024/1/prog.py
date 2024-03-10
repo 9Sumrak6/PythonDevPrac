@@ -31,6 +31,7 @@ def encounter(x, y):
     else:
         print(cowsay.cowthink(hello, cowfile=jgsbat))
 
+print("<<< Welcome to Python-MUD 0.1 >>>")
 
 x, y = 0, 0
 
