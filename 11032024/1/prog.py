@@ -19,6 +19,8 @@ class Mud(cmd.Cmd):
     EOC
     """))
 
+    weapons = ['sword', 'spear', 'axe']
+
     prompt = ':->'
 
     def __init__(self):
@@ -152,7 +154,7 @@ class Mud(cmd.Cmd):
         args = shlex.split(args)
 
         if len(args) < 1:
-            print("Type monster name")
+            print("Type args")
             return
 
         if self.field[self.y][self.x] == 0:
@@ -161,19 +163,38 @@ class Mud(cmd.Cmd):
 
         if args[0] != self.field[self.y][self.x]['name']:
             print(f"No {args[0]} here")
+
+        weapon = 'sword'
+
+        if len(args) >= 2 and args[1] != 'with':
+            print("Invalid arguments")
+            return
+
+        if len(args) >= 3:
+            weapon = args[2]
+
+        if weapon != 'sword' and weapon != 'spear' and weapon != 'axe':
+            print("Unknown weapon")
             return
 
         hp = int(self.field[self.y][self.x]['hp'])
         name = self.field[self.y][self.x]['name']
-        damage = 10
 
-        if hp < 10:
+        if weapon == 'sword':
+            damage = 10
+        elif weapon == 'spear':
+            damage = 15
+        else:
+            damage = 20
+
+
+        if hp < damage:
             damage = hp
         hp -= damage
 
         print(f"Attacked {name},  damage {damage} hp")
 
-        if hp == 0:
+        if hp <= 0:
             print(f"{name} died")
             self.field[self.y][self.x] = 0
         else:
@@ -182,9 +203,12 @@ class Mud(cmd.Cmd):
 
 
     def complete_attack(self, text, line, begidx, endidx):
-        mon_list = list(self.user_list.keys()) + self.allowed_list
-
-        return [c for c in mon_list if c.startswith(text)]
+        res = shlex.split(line[:begidx], 0, 0)
+        if len(res) <= 1:
+            mon_list = list(self.user_list.keys()) + self.allowed_list
+            return [c for c in mon_list if c.startswith(text)]
+        elif res[-1] == 'with':
+            return [c for c in self.weapons if c.startswith(text)]
 
 
     def do_EOF(self, args):
