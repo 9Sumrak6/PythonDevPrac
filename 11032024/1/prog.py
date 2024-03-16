@@ -146,6 +146,27 @@ class Mud(cmd.Cmd):
     def do_addmon(self, args):
         self.move_mon(*self.get_mon_args(args))
 
+    def do_attack(self, args):
+        if self.field[self.y][self.x] == 0:
+            print("No monster here")
+            return
+
+        hp = int(self.field[self.y][self.x]['hp'])
+        name = self.field[self.y][self.x]['name']
+        damage = 10
+
+        if hp < 10:
+            damage = hp
+        hp -= damage
+
+        print(f"Attacked {name},  damage {damage} hp")
+
+        if hp == 0:
+            print(f"{name} died")
+            self.field[self.y][self.x] = 0
+        else:
+            print(f"{name} now has {hp}")
+            self.field[self.y][self.x]['hp'] = hp
 
     def do_EOF(self, args):
         return True
