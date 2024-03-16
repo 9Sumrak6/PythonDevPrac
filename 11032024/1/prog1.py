@@ -174,4 +174,5 @@ class Mud(cmd.Cmd):
 
 if __name__ == "__main__":
     print("<<< Welcome to Python-MUD 0.1 >>>")
+
     Mud().cmdloop()    
