@@ -61,3 +61,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         hp = field[y][x]['hp'] - damage
                         field[y][x]['hp'] -= damage
 
+                    conn.sendall(f"attack {damage} {hp}\n".encode())
+            else:
+                print("Invalid command")
