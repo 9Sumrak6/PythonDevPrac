@@ -134,7 +134,6 @@ class Mud():
             self.field[m_y][m_x] = {'hello':hello, 'hp': hp, 'name': name}
             return client + f' replaced the old monster in ({m_x}, {m_y}) with a {name} saying {hello} with hp = {hp}'
 
-
     def attack(self, client, args):
         args = shlex.split(args)
 
@@ -247,6 +246,9 @@ async def chat(reader, writer):
                             await clients_conns[i].put(ans)
                     else:
                         writer.write(ans.encode())
+                elif query[0] == 'sayall':
+                    for i in clients_names:
+                        await clients_conns[i].put(name + ": " + " ".join(query[1:]))
                 elif query[0] == 'quit':
                     send.cancel()
                     receive.cancel()
