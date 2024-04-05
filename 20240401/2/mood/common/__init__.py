@@ -1,5 +1,8 @@
+"""Init file with common constants and functions for client and server files."""
+
 from io import StringIO
 import cowsay
+
 
 jgsbat = cowsay.read_dot_cow(StringIO("""
 $the_cow = <<EOC;

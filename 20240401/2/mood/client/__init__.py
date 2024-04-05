@@ -1,3 +1,5 @@
+"""Init file for client."""
+
 import cowsay
 import cmd
 import readline
@@ -5,10 +7,14 @@ import shlex
 
 from ..common import jgsbat, prompt, weapons
 
+
 class Mood(cmd.Cmd):
+    """Class Mood shows the command line, autocomplete attack command and send commands to server."""
+
     prompt = prompt
 
     def __init__(self, conn):
+        """Initialize variables."""
         super().__init__()
 
         self.conn = conn
@@ -17,27 +23,35 @@ class Mood(cmd.Cmd):
         self.user_list = {'jgsbat': jgsbat}
 
     def do_up(self, args):
+        """Send to server message about moving up."""
         self.conn.sendall("move 0 -1\n".encode())
 
     def do_down(self, args):
+        """Send to server message about moving down."""
         self.conn.sendall("move 0 1\n".encode())
 
     def do_right(self, args):
+        """Send to server message about moving to the right."""
         self.conn.sendall("move 1 0\n".encode())
 
     def do_left(self, args):
+        """Send to server message about moving to the left."""
         self.conn.sendall("move -1 0\n".encode())
 
     def do_addmon(self, args):
+        """Send message about adding the monster."""
         self.conn.sendall(("addmon " + args + "\n").encode())
 
     def do_attack(self, args):
+        """Send message about attackin the monster."""
         self.conn.sendall(("attack " + args + "\n").encode())
 
     def do_sayall(self, args):
+        """Send message to all players."""
         self.conn.sendall(("sayall " + args + "\n").encode())
 
     def complete_attack(self, text, line, begidx, endidx):
+        """Complete attack line."""
         res = shlex.split(line[:begidx], 0, 0)
 
         if len(res) <= 1:
@@ -47,10 +61,12 @@ class Mood(cmd.Cmd):
             return [c for c in weapons if c.startswith(text)]
 
     def do_EOF(self, args):
+        """End cmd activity."""
         return True
 
 
 def recieve(cmd):
+    """Recieve the messages from server in another thread."""
     while cmd.conn is not None:
         data = ""
 

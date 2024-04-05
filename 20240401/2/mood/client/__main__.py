@@ -1,3 +1,5 @@
+"""Main file for client."""
+
 import sys
 import socket
 import threading
@@ -25,4 +27,4 @@ if __name__ == "__main__":
         recieve.daemon = True
         recieve.start()
 
-        mood.cmdloop()   
+        mood.cmdloop()

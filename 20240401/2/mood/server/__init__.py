@@ -1,19 +1,24 @@
+"""Initial file for server."""
+
 import cowsay
-import cmd
-import re
+# import cmd
+# import re
 import asyncio
 import shlex
 
 from ..common import jgsbat, weapons
-#pattern = re.compile(r'\w+')
+# pattern = re.compile(r'\w+')
 
 
 class Mood():
+    """Check correctness of clients commands and executes them."""
+
     jgsbat = jgsbat
 
     weapons = weapons
 
     def __init__(self):
+        """Set initial values and allowed cows."""
         super().__init__()
 
         self.x = dict()
@@ -27,13 +32,15 @@ class Mood():
         self.user_list = {'jgsbat': self.jgsbat}
 
     def add_client(self, client):
+        """Add client to the field."""
         self.x[client] = 0
         self.y[client] = 0
 
     def get_mon_args(self, args):
+        """Check the correctness of arguments from the "addmon" command."""
         args = shlex.split(args)
 
-        name, hello, hp, m_x, m_y  = self.invalid_mon
+        name, hello, hp, m_x, m_y = self.invalid_mon
         if len(args) == 0:
             args += ['default']
 
@@ -83,6 +90,7 @@ class Mood():
         return (name, hello, hp, m_x, m_y)
 
     def move(self, client, args):
+        """Move user to the next cell."""
         args = args.split()
         dx, dy = int(args[0]), int(args[1])
 
@@ -96,7 +104,7 @@ class Mood():
             return ans
 
         hello = self.field[y][x]['hello']
-        hp = self.field[y][x]['hp']
+        # hp = self.field[y][x]['hp']
         name = self.field[y][x]['name']
 
         if name in self.allowed_list:
@@ -107,19 +115,27 @@ class Mood():
         return ans
 
     def addmon(self, client, args):
+        """Add monster to the cell."""
         (name, hello, hp, m_x, m_y) = self.get_mon_args(args)
 
         if (name, hello, hp, m_x, m_y) == self.invalid_mon:
             return "Invalid arguments\n"
 
         if self.field[m_y][m_x] == 0:
-            self.field[m_y][m_x] = {'hello':hello, 'hp': hp, 'name': name}
-            return '"' + client + '"' + f' added {name} to ({m_x}, {m_y}) saying {hello} with hp = {hp}'
+            self.field[m_y][m_x] = {'hello': hello, 'hp': hp, 'name': name}
+
+            ans = '"' + client + '"' + f' added {name} to ({m_x}, {m_y}) saying {hello} '
+            ans += f"with hp = {hp}"
+
+            return ans
         else:
-            self.field[m_y][m_x] = {'hello':hello, 'hp': hp, 'name': name}
-            return '"' + client + '"' + f' replaced the old monster in ({m_x}, {m_y}) with a {name} saying {hello} with hp = {hp}'
+            self.field[m_y][m_x] = {'hello': hello, 'hp': hp, 'name': name}
+            ans = '"' + client + '"' + ' replaced the old monster in '
+            ans += f"({m_x}, {m_y}) with a {name} saying {hello} with hp = {hp}"
+            return ans
 
     def attack(self, client, args):
+        """Attack monster in the current cell."""
         args = shlex.split(args)
 
         if len(args) < 1:
@@ -172,7 +188,9 @@ clients_names = set()
 
 clients_conns = dict()
 
+
 async def chat(reader, writer):
+    """Check correctness of clients commands and executes them."""
     global clients, clients_names, clients_conns
 
     me = "{}:{}".format(*writer.get_extra_info('peername'))
@@ -255,6 +273,7 @@ async def chat(reader, writer):
 
 
 async def main():
+    """Run async server."""
     server = await asyncio.start_server(chat, '0.0.0.0', 1337)
     async with server:
         await server.serve_forever()

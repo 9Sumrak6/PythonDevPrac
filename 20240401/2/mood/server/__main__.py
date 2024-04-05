@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Main file for server."""
+
 import asyncio
 
 from . import main
