@@ -240,7 +240,6 @@ async def chat(reader, writer):
                 send = asyncio.create_task(reader.readline())
             elif q is receive:
                 receive = asyncio.create_task(clients_conns[name].get())
-                print(q)
                 writer.write(f"{q.result()}\n".encode())
                 await writer.drain()
 

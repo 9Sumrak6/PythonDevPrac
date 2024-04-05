@@ -2,7 +2,7 @@ import sys
 import socket
 import threading
 
-from .lib import *
+from . import Mood, recieve
 
 
 if __name__ == "__main__":
