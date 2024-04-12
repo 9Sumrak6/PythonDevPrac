@@ -39,7 +39,7 @@ class Mood():
     def add_client(self, client):
         """
         Add client to the field.
-        
+
         :param client: nickname of client
         """
         self.clients.add(client)
@@ -270,7 +270,7 @@ fl = True
 async def chat(reader, writer):
     """
     Check correctness of clients commands and executes them.
-    
+
     :param reader: read data from IO stream
     :param writer: write data to IO stream
     """
