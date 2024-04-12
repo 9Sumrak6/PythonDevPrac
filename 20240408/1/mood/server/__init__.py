@@ -6,7 +6,6 @@ import cowsay
 import asyncio
 import shlex
 import random
-from time import sleep
 
 from ..common import jgsbat, weapons
 # pattern = re.compile(r'\w+')
@@ -135,7 +134,7 @@ class Mood():
         else:
             ans = '"' + client + '"' + ' replaced the old monster in '
             ans += f"({m_x}, {m_y}) with a {name} saying {hello} with hp = {hp}"
-        
+
         self.field[m_y][m_x] = {'hello': hello, 'hp': hp, 'name': name}
         self.taken_cows.add((m_y, m_x))
 
@@ -189,11 +188,12 @@ class Mood():
         return ans
 
     async def move_random_mon(self):
-        await asyncio.sleep(1)
-        
+        """Move random monster to the next cell."""
+        await asyncio.sleep(30)
+
         while True:
             if len(self.taken_cows) == 0 or len(self.taken_cows) == SIZE ** 2:
-                return ("", [])
+                return ("", "", [])
 
             cell = random.choice(list(self.taken_cows))
             move = random.choice(['up', 'down', 'right', 'left'])
@@ -205,13 +205,16 @@ class Mood():
             elif move == 'right':
                 new_cell = (cell[0], (cell[1] + 1) % SIZE)
             else:
-                new_cell = (cell[0], (cell[1] - 1) %  SIZE)
+                new_cell = (cell[0], (cell[1] - 1) % SIZE)
 
             if self.field[new_cell[0]][new_cell[1]] != 0:
                 continue
 
             mon_name = self.field[cell[0]][cell[1]]['name']
             hello = self.field[cell[0]][cell[1]]['hello']
+
+            msg_all = f"{mon_name} moved one cell {move}"
+
             if mon_name in self.allowed_list:
                 msg = cowsay.cowsay(hello, cow=mon_name)
             else:
@@ -228,16 +231,19 @@ class Mood():
                 if self.x[name] == new_cell[1] and self.y[name] == new_cell[0]:
                     names_list.append(name)
 
-            return (msg, names_list)
+            return (msg_all, msg, names_list)
+
 
 mood = Mood()
 
 clients = dict()
 clients_names = set()
-
 clients_conns = dict()
+
 mon_task = 1
 fl = True
+
+
 async def chat(reader, writer):
     """Check correctness of clients commands and executes them."""
     global mood, clients, clients_names, clients_conns, mon_task, fl
@@ -274,10 +280,13 @@ async def chat(reader, writer):
 
         for q in done:
             if q is mon_task:
-                msg, cl = q.result()
+                msg_all, msg, cl = q.result()
 
-                for i in cl:
-                    await clients_conns[i].put(msg)
+                if msg_all != "":
+                    for i in clients_names:
+                        await clients_conns[i].put(msg_all)
+                        if i in cl:
+                            await clients_conns[i].put(msg)
 
                 mon_task = asyncio.create_task(mood.move_random_mon())
             elif q is send:
