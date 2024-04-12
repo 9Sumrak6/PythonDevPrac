@@ -37,14 +37,22 @@ class Mood():
         self.taken_cows = set()
 
     def add_client(self, client):
-        """Add client to the field."""
+        """
+        Add client to the field.
+        
+        :param client: nickname of client
+        """
         self.clients.add(client)
 
         self.x[client] = 0
         self.y[client] = 0
 
     def get_mon_args(self, args):
-        """Check the correctness of arguments from the "addmon" command."""
+        """
+        Check the correctness of arguments from the "addmon" command.
+
+        :param args: string with args
+        """
         args = shlex.split(args)
 
         name, hello, hp, m_x, m_y = self.invalid_mon
@@ -97,7 +105,12 @@ class Mood():
         return (name, hello, hp, m_x, m_y)
 
     def move(self, client, args):
-        """Move user to the next cell."""
+        """
+        Move user to the next cell.
+
+        :param client: nickname of client who will recieve msg
+        :param args: string with args
+        """
         args = args.split()
         dx, dy = int(args[0]), int(args[1])
 
@@ -122,7 +135,12 @@ class Mood():
         return ans
 
     def addmon(self, client, args):
-        """Add monster to the cell."""
+        """
+        Add monster to the cell.
+
+        :param client: nickname of client who will recieve msg
+        :param args: string with args
+        """
         (name, hello, hp, m_x, m_y) = self.get_mon_args(args)
 
         if (name, hello, hp, m_x, m_y) == self.invalid_mon:
@@ -141,7 +159,12 @@ class Mood():
         return ans
 
     def attack(self, client, args):
-        """Attack monster in the current cell."""
+        """
+        Attack monster in the current cell.
+
+        :param client: nickname of client who will recieve msg
+        :param args: string with args
+        """
         args = shlex.split(args)
 
         if len(args) < 1:
@@ -188,7 +211,7 @@ class Mood():
         return ans
 
     async def move_random_mon(self):
-        """Move random monster to the next cell."""
+        """Move random monster to the next cell by timer."""
         await asyncio.sleep(30)
 
         while True:
@@ -245,7 +268,12 @@ fl = True
 
 
 async def chat(reader, writer):
-    """Check correctness of clients commands and executes them."""
+    """
+    Check correctness of clients commands and executes them.
+    
+    :param reader: read data from IO stream
+    :param writer: write data to IO stream
+    """
     global mood, clients, clients_names, clients_conns, mon_task, fl
 
     me = "{}:{}".format(*writer.get_extra_info('peername'))
