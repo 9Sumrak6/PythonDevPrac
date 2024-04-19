@@ -269,6 +269,7 @@ mon_task = 1
 fl = False
 moving = True
 
+
 async def chat(reader, writer):
     """
     Check correctness of clients commands and executes them.
@@ -303,7 +304,7 @@ async def chat(reader, writer):
     receive = asyncio.create_task(clients_conns[name].get())
 
     while not reader.at_eof():
-        if fl and moving == True:
+        if fl is True and moving is True:
             done, pending = await asyncio.wait([send, receive, mon_task], return_when=asyncio.FIRST_COMPLETED)
         else:
             done, pending = await asyncio.wait([send, receive], return_when=asyncio.FIRST_COMPLETED)
@@ -334,7 +335,7 @@ async def chat(reader, writer):
                     if ans == "Invalid arguments":
                         writer.write(ans.encode())
                     else:
-                        if cur_cow_num > 0 and moving == True:
+                        if cur_cow_num > 0 and moving is True:
                             mon_task = asyncio.create_task(mood.move_random_mon())
                             fl = True
 
@@ -345,7 +346,7 @@ async def chat(reader, writer):
                 elif query[0] == 'attack':
                     ans = mood.attack(clients[me], " ".join(query[1:]))
 
-                    if type(ans) == tuple:
+                    if type(ans) is tuple:
                         cow_num, ans = ans
 
                         if cow_num == 0:
@@ -359,7 +360,7 @@ async def chat(reader, writer):
                     for i in clients_names:
                         await clients_conns[i].put(name + ": " + " ".join(query[1:]))
                 elif query[0] == 'movemonsters':
-                    if query[1] == "on" and moving == False:
+                    if query[1] == "on" and moving is False:
                         moving = True
 
                         if len(asyncio.all_tasks()) == 2:
@@ -367,7 +368,7 @@ async def chat(reader, writer):
 
                         for i in clients_names:
                             await clients_conns[i].put("Moving monsters: on")
-                    elif query[1] == "off" and moving == True:
+                    elif query[1] == "off" and moving is True:
                         moving = False
 
                         for i in clients_names:
