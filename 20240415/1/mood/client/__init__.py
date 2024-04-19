@@ -60,6 +60,21 @@ class Mood(cmd.Cmd):
         elif res[-1] == 'with':
             return [c for c in weapons if c.startswith(text)]
 
+    def do_movemonsters(self, args):
+        """End cmd activity."""
+        if args != "off" and args != "on":
+            print("Invalid command.")
+
+        self.conn.sendall(("movemonsters " + args + "\n").encode())
+
+    def do_q(self, args):
+        """End cmd activity."""
+        return True
+
+    def do_quit(self, args):
+        """End cmd activity."""
+        return True
+
     def do_EOF(self, args):
         """End cmd activity."""
         return True

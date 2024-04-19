@@ -144,7 +144,7 @@ class Mood():
         (name, hello, hp, m_x, m_y) = self.get_mon_args(args)
 
         if (name, hello, hp, m_x, m_y) == self.invalid_mon:
-            return "Invalid arguments\n"
+            return (len(self.taken_cows), "Invalid arguments\n")
 
         if self.field[m_y][m_x] == 0:
             ans = '"' + client + '"' + f' added {name} to ({m_x}, {m_y}) saying {hello} '
@@ -156,7 +156,7 @@ class Mood():
         self.field[m_y][m_x] = {'hello': hello, 'hp': hp, 'name': name}
         self.taken_cows.add((m_y, m_x))
 
-        return ans
+        return (len(self.taken_cows), ans)
 
     def attack(self, client, args):
         """
@@ -208,7 +208,7 @@ class Mood():
             ans += f"{name} now has {hp}"
             self.field[y][x]['hp'] = hp
 
-        return ans
+        return (len(self.taken_cows), ans)
 
     async def move_random_mon(self):
         """Move random monster to the next cell by timer."""
@@ -253,19 +253,21 @@ class Mood():
             for name in self.clients:
                 if self.x[name] == new_cell[1] and self.y[name] == new_cell[0]:
                     names_list.append(name)
-
+            print(f"mon-pos={new_cell[0]}{new_cell[1]}")
             return (msg_all, msg, names_list)
 
 
 mood = Mood()
+
+cow_num = 0
 
 clients = dict()
 clients_names = set()
 clients_conns = dict()
 
 mon_task = 1
-fl = True
-
+fl = False
+moving = True
 
 async def chat(reader, writer):
     """
@@ -274,7 +276,7 @@ async def chat(reader, writer):
     :param reader: read data from IO stream
     :param writer: write data to IO stream
     """
-    global mood, clients, clients_names, clients_conns, mon_task, fl
+    global mood, cow_num, clients, clients_names, clients_conns, mon_task, fl, moving
 
     me = "{}:{}".format(*writer.get_extra_info('peername'))
 
@@ -293,18 +295,18 @@ async def chat(reader, writer):
 
     for i in clients_names:
         if i != name:
-            await clients_conns[i].put(f"{name} joined the game")
+            await clients_conns[i].put(f"{name} joined the game.")
 
     clients_conns[name] = asyncio.Queue()
 
     send = asyncio.create_task(reader.readline())
     receive = asyncio.create_task(clients_conns[name].get())
-    if fl:
-        mon_task = asyncio.create_task(mood.move_random_mon())
-        fl = False
 
     while not reader.at_eof():
-        done, pending = await asyncio.wait([send, receive, mon_task], return_when=asyncio.FIRST_COMPLETED)
+        if fl and moving == True:
+            done, pending = await asyncio.wait([send, receive, mon_task], return_when=asyncio.FIRST_COMPLETED)
+        else:
+            done, pending = await asyncio.wait([send, receive], return_when=asyncio.FIRST_COMPLETED)
 
         for q in done:
             if q is mon_task:
@@ -319,6 +321,7 @@ async def chat(reader, writer):
                 mon_task = asyncio.create_task(mood.move_random_mon())
             elif q is send:
                 query = q.result().decode().strip().split()
+                print(query)
 
                 if len(query) == 0:
                     writer.write("Command is incorrect.\n".encode())
@@ -326,17 +329,28 @@ async def chat(reader, writer):
                 if query[0] == 'move':
                     writer.write(mood.move(clients[me], " ".join(query[1:])).encode())
                 elif query[0] == 'addmon':
-                    ans = mood.addmon(clients[me], " ".join(query[1:]))
+                    cur_cow_num, ans = mood.addmon(clients[me], " ".join(query[1:]))
 
                     if ans == "Invalid arguments":
                         writer.write(ans.encode())
                     else:
+                        if cur_cow_num > 0 and moving == True:
+                            mon_task = asyncio.create_task(mood.move_random_mon())
+                            fl = True
+
+                        cow_num = cur_cow_num
+
                         for i in clients_names:
                             await clients_conns[i].put(ans)
                 elif query[0] == 'attack':
                     ans = mood.attack(clients[me], " ".join(query[1:]))
 
-                    if ans.startswith('"' + clients[me] + '"'):
+                    if type(ans) == tuple:
+                        cow_num, ans = ans
+
+                        if cow_num == 0:
+                            fl = False
+
                         for i in clients_names:
                             await clients_conns[i].put(ans)
                     else:
@@ -344,13 +358,26 @@ async def chat(reader, writer):
                 elif query[0] == 'sayall':
                     for i in clients_names:
                         await clients_conns[i].put(name + ": " + " ".join(query[1:]))
+                elif query[0] == 'movemonsters':
+                    if query[1] == "on" and moving == False:
+                        moving = True
+
+                        if len(asyncio.all_tasks()) == 2:
+                            mon_task = asyncio.create_task(mood.move_random_mon())
+
+                        for i in clients_names:
+                            await clients_conns[i].put("Moving monsters: on")
+                    elif query[1] == "off" and moving == True:
+                        moving = False
+
+                        for i in clients_names:
+                            await clients_conns[i].put("Moving monsters: off")
                 elif query[0] == 'quit':
                     send.cancel()
                     receive.cancel()
                     del clients[me]
                     writer.close()
                     return
-
                 send = asyncio.create_task(reader.readline())
             elif q is receive:
                 receive = asyncio.create_task(clients_conns[name].get())
@@ -359,7 +386,7 @@ async def chat(reader, writer):
 
     print(f'{me} Done')
     for i in clients_names:
-        await clients_conns[i].put(f"{name} left the game")
+        await clients_conns[i].put(f"{name} left the game.")
 
     send.cancel()
     receive.cancel()
