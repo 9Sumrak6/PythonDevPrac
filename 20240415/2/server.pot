@@ -1,0 +1,98 @@
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-04-20 21:14+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.14.0\n"
+
+#: mood/server/__init__.py:136
+msgid "Moved to ({}, {})\n"
+msgstr "Перешел в клетку ({}, {})\n"
+
+#: mood/server/__init__.py:162
+msgid "Invalid arguments\n"
+msgstr "Некорректные параметры\n"
+
+#: mood/server/__init__.py:165
+msgid " added {} to ({}, {}) saying {} "
+msgstr " добавил {} в ({}, {}), говорящего: {}"
+
+#: mood/server/__init__.py:166
+msgid "with hp = {}"
+msgstr "с ОЗ = {}"
+
+#: mood/server/__init__.py:165
+msgid " replaced the old monster in "
+msgstr ""
+
+#: mood/server/__init__.py:166
+msgid "({}, {}) with a {} saying {} with hp = {}"
+msgstr "!!!"
+
+#: mood/server/__init__.py:186
+msgid "Type args"
+msgstr "Введите параметры"
+
+#: mood/server/__init__.py:191
+msgid "No monster here"
+msgstr "Здесь нет монстров"
+
+#: mood/server/__init__.py:194
+msgid "No {} here"
+msgstr "Здесь нет монстра: {}"
+
+#: mood/server/__init__.py:199
+msgid "Invalid arguments"
+msgstr "Некорректные параметры"
+
+#: mood/server/__init__.py:205
+msgid "Unknown weapon"
+msgstr "Неизвестное оружие"
+
+#: mood/server/__init__.py:213
+msgid " attacked {},  damage {} hp\n"
+msgstr "!!!"
+
+#: mood/server/__init__.py:219
+msgid "{} died"
+msgstr "{} умер"
+
+#: mood/server/__init__.py:220
+msgid "{} now has {} hp."
+msgstr "У {} теперь {} ОЗ ???"
+
+#: mood/server/__init__.py:254
+msgid "{} moved one cell {}"
+msgstr "{} перешел на одну клетку {}"
+
+#: mood/server/__init__.py:317
+msgid "{} joined the game."
+msgstr "{} присоединился к игре."
+
+#: mood/server/__init__.py:347
+msgid "Command is incorrect.\n"
+msgstr "Команда некорректна.\n"
+
+#: mood/server/__init__.py:391
+msgid "Moving monsters: on"
+msgstr "Режим двигающихся монстров: включён"
+
+#: mood/server/__init__.py:397
+msgid "Moving monsters: off"
+msgstr "Режим двигающихся монстров: выключен"
+
+#: mood/server/__init__.py:412
+msgid "{} left the game."
+msgstr "{} покинул игру."

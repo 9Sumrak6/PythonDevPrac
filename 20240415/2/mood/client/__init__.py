@@ -22,6 +22,10 @@ class Mood(cmd.Cmd):
         self.allowed_list = cowsay.list_cows()
         self.user_list = {'jgsbat': jgsbat}
 
+    def do_locale(self, args):
+        """Send to server message with localization info."""
+        self.conn.sendall(("locale " + args + "\n").encode())
+
     def do_up(self, args):
         """Send to server message about moving up."""
         self.conn.sendall("move 0 -1\n".encode())
