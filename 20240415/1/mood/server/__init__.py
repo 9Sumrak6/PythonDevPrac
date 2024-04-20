@@ -20,6 +20,8 @@ class Mood():
 
     weapons = weapons
 
+    not_move_rand_mon = False
+
     def __init__(self):
         """Set initial values and allowed cows."""
         super().__init__()
@@ -212,7 +214,7 @@ class Mood():
 
     async def move_random_mon(self):
         """Move random monster to the next cell by timer."""
-        await asyncio.sleep(30)
+        await asyncio.sleep(4)
 
         while True:
             if len(self.taken_cows) == 0 or len(self.taken_cows) == SIZE ** 2:
@@ -243,6 +245,9 @@ class Mood():
             else:
                 msg = cowsay.cowsay(hello, cowfile=self.user_list[mon_name])
 
+            if self.not_move_rand_mon:
+                return ("", "", [])
+
             self.field[new_cell[0]][new_cell[1]] = self.field[cell[0]][cell[1]]
             self.field[cell[0]][cell[1]] = 0
 
@@ -253,7 +258,7 @@ class Mood():
             for name in self.clients:
                 if self.x[name] == new_cell[1] and self.y[name] == new_cell[0]:
                     names_list.append(name)
-            print(f"mon-pos={new_cell[0]}{new_cell[1]}")
+
             return (msg_all, msg, names_list)
 
 
@@ -315,9 +320,10 @@ async def chat(reader, writer):
 
                 if msg_all != "":
                     for i in clients_names:
-                        await clients_conns[i].put(msg_all)
                         if i in cl:
-                            await clients_conns[i].put(msg)
+                            await clients_conns[i].put(msg_all + "\n" + msg)
+                        else:
+                            await clients_conns[i].put(msg_all)
 
                 mon_task = asyncio.create_task(mood.move_random_mon())
             elif q is send:
@@ -351,6 +357,7 @@ async def chat(reader, writer):
 
                         if cow_num == 0:
                             fl = False
+                            mood.not_move_rand_mon = True
 
                         for i in clients_names:
                             await clients_conns[i].put(ans)
@@ -362,6 +369,7 @@ async def chat(reader, writer):
                 elif query[0] == 'movemonsters':
                     if query[1] == "on" and moving is False:
                         moving = True
+                        mood.not_move_rand_mon = False
 
                         if len(asyncio.all_tasks()) == 2:
                             mon_task = asyncio.create_task(mood.move_random_mon())
@@ -370,6 +378,7 @@ async def chat(reader, writer):
                             await clients_conns[i].put("Moving monsters: on")
                     elif query[1] == "off" and moving is True:
                         moving = False
+                        mood.not_move_rand_mon = True
 
                         for i in clients_names:
                             await clients_conns[i].put("Moving monsters: off")
