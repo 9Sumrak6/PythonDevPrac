@@ -19,7 +19,8 @@ def sqrootsserver(coeffs: str) -> str:
 
 async def echo(reader, writer):
     while data := await reader.readline():
-        writer.write(sqroots(data.decode()).encode())
+        writer.write(sqrootsserver(data.decode()).encode())
+
     writer.close()
     await writer.wait_closed()
 

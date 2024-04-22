@@ -5,6 +5,8 @@
 import unittest
 import multiprocessing
 import asyncio
+import time
+import socket
 
 import sqroots_server
 from client import sqrootnet
@@ -19,9 +21,9 @@ class TestSqrootserver(unittest.TestCase):
 		time.sleep(1)
 
 	@classmethod
-	def teardownClass(cls):
-		self.proc.terminate()
-		self.proc.join()
+	def tearDownClass(cls):
+		cls.proc.kill()
+		cls.proc.join()
 
 	def setUp(self):
 		host = "localhost"
@@ -40,7 +42,7 @@ class TestSqrootserver(unittest.TestCase):
 		self.assertEqual(sqrootnet("1 2 1", self.socket), "-1.0")
 
 	def test_3_sqrootnet(self):
-		self.assertEqual(sqrootnet("1 5 6", self.socket), "-3.0 -2")
+		self.assertEqual(sqrootnet("1 5 6", self.socket), "-3.0 -2.0")
 
 	def tearDown(self):
 		self.socket.close()
