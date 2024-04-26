@@ -431,13 +431,13 @@ async def chat(reader, writer):
                             mon_task = asyncio.create_task(mood.move_random_mon())
 
                         for i in clients_names:
-                            await clients_conns[i].put(_(name, "Moving monsters: on"))
+                            await clients_conns[i].put(_(i, "Moving monsters: on"))
                     elif query[1] == "off" and moving is True:
                         moving = False
                         mood.not_move_rand_mon = True
 
                         for i in clients_names:
-                            await clients_conns[i].put(_(name, "Moving monsters: off"))
+                            await clients_conns[i].put(_(i, "Moving monsters: off"))
                 elif query[0] == 'quit':
                     send.cancel()
                     receive.cancel()
@@ -452,7 +452,7 @@ async def chat(reader, writer):
 
     print(f'{me} Done')
     for i in clients_names:
-        await clients_conns[i].put(_(name, "{} left the game.").format(name))
+        await clients_conns[i].put(_(i, "{} left the game.").format(name))
 
     send.cancel()
     receive.cancel()

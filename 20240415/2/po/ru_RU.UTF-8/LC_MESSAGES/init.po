@@ -91,31 +91,31 @@ msgstr[2] "У {} туперь {} очков здоровья."
 msgid "{} moved one cell {}"
 msgstr "{} перешел на одну клетку {}"
 
-#: mood/server/__init__.py:329
+#: mood/server/__init__.py:352
 msgid "{} joined the game."
 msgstr "{} присоединился к игре."
 
-#: mood/server/__init__.py:358
+#: mood/server/__init__.py:381
 msgid "Command is incorrect.\n"
 msgstr "Команда некорректна.\n"
 
-#: mood/server/__init__.py:365
+#: mood/server/__init__.py:388
 msgid "Set up locale: {} {}\n"
 msgstr "Установлена локаль: {} {}.\n"
 
-#: mood/server/__init__.py:368
+#: mood/server/__init__.py:391
 msgid "Invalid locale: {} {}\n"
 msgstr "Некорректная локаль: {} {}.\n"
 
-#: mood/server/__init__.py:411
+#: mood/server/__init__.py:434
 msgid "Moving monsters: on"
 msgstr "Режим блуждающих монстров: включен"
 
-#: mood/server/__init__.py:417
+#: mood/server/__init__.py:440
 msgid "Moving monsters: off"
 msgstr "Режим блуждающих монстров: выключен"
 
-#: mood/server/__init__.py:432
+#: mood/server/__init__.py:455
 msgid "{} left the game."
 msgstr "{} покинул игру."
 

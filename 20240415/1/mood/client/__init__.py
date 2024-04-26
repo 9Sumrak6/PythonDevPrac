@@ -5,6 +5,7 @@ import cmd
 import readline
 import shlex
 import time
+import sys
 
 from ..common import jgsbat, prompt, weapons
 
@@ -14,7 +15,7 @@ class Mood(cmd.Cmd):
 
     prompt = prompt
 
-    def __init__(self, conn, stdin):
+    def __init__(self, conn, stdin=sys.stdin):
         """Initialize variables."""
         super().__init__(stdin=stdin)
 
@@ -24,7 +25,7 @@ class Mood(cmd.Cmd):
         self.user_list = {'jgsbat': jgsbat}
 
     def precmd(self, line):
-        """Freeze console enter"""
+        """Freeze console enter."""
         time.sleep(1)
         return super().precmd(line)
 
