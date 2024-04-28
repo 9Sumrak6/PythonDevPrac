@@ -105,7 +105,9 @@ def recieve(cmd):
 
         print(f"\n{data.strip()}\n{cmd.prompt}{readline.get_line_buffer()}", end='', flush=True)
 
+
 def main():
+    """Start client."""
     host = "localhost"
     port = 1337
     name = "My name\n"

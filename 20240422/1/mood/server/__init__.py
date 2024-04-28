@@ -1,5 +1,4 @@
 """Initial file for server."""
-
 import cowsay
 import asyncio
 import shlex
@@ -467,5 +466,7 @@ async def run_server():
     async with server:
         await server.serve_forever()
 
+
 def main():
+    """Start server."""
     asyncio.run(run_server())

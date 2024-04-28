@@ -1,7 +1,11 @@
+"""Start server module."""
 import mood.server
 
+
 def serve():
-	mood.server.main()
+    """Start server."""
+    mood.server.main()
+
 
 if __name__ == "__main__":
-	serve()
+    serve()
