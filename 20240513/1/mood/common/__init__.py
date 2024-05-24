@@ -22,4 +22,5 @@ weapons = {'sword': 10, 'spear': 15, 'axe': 20}
 
 prompt = ':->'
 
-path_doc = str(Path(__file__).parent.resolve() / '../../docs/build/html/index.html')
+path_doc = str(Path(__file__).parent.resolve() / '../docs/build/html/index.html')
+path_transl = str(Path(__file__).parent.resolve() / '../po')

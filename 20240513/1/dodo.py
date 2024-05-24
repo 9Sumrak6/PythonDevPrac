@@ -9,9 +9,9 @@ DOIT_CONFIG = {'default_tasks': ['html']}
 
 def task_gen_pot():
     return {
-            'actions': ['pybabel extract --keywords=ngettext:2,3 --keywords=_:2 mood -o server.pot'],
+            'actions': ['pybabel extract --keywords=ngettext:2,3 --keywords=_:2 mood/server -o i18n/server.pot'],
             'file_dep': glob.glob('mood/server/*.py'),
-            'targets': ['server.pot'],
+            'targets': ['i18n/server.pot'],
             'doc': 'Create/re-create ".pot" patterns.',
             'clean': [clean_targets],
     }
@@ -19,18 +19,18 @@ def task_gen_pot():
 
 def task_upd_po():
     return {
-            'actions': ['pybabel update --ignore-pot-creation-date -l ru_RU.UTF-8 -i server.pot -D mood -d po1'],
-            'file_dep': ['server.pot'],
-            'targets': ['po/ru_RU.UTF-8/LC_MESSAGES/mood.po'],
+            'actions': ['pybabel update --ignore-pot-creation-date -l ru_RU.UTF-8 -i i18n/server.pot -D mood -d i18n/po'],
+            'file_dep': ['i18n/server.pot'],
+            'targets': ['i18n/po/ru_RU.UTF-8/LC_MESSAGES/mood.po'],
             'doc': 'Update translation',
     }
 
 
 def task_gen_mo():
     return {
-            'actions': ['pybabel compile -l ru_RU.UTF-8 -i po1/ru_RU.UTF-8/LC_MESSAGES/mood.po -D mood -d po1'],
-            'file_dep': ['po1/ru_RU.UTF-8/LC_MESSAGES/mood.po'],
-            'targets': ['po1/ru_RU.UTF-8/LC_MESSAGES/mood.mo'],
+            'actions': ['mkdir -p mood/po/ru_RU.UTF-8/LC_MESSAGES/', 'pybabel compile -l ru_RU.UTF-8 -i i18n/po/ru_RU.UTF-8/LC_MESSAGES/mood.po -D mood -d mood/po'],
+            'file_dep': ['i18n/po/ru_RU.UTF-8/LC_MESSAGES/mood.po'],
+            'targets': ['mood/po/ru_RU.UTF-8/LC_MESSAGES/mood.mo'],
             'doc': 'compile translations',
             'clean': [clean_targets],
     }
@@ -53,16 +53,16 @@ def task_i18n():
 
 def task_gen_html():
     return {
-            'actions': ['sphinx-build -M html docs/source docs/build'],
+            'actions': ['sphinx-build -M html docs/source mood/docs/build'],
             'file_dep': glob.glob('docs/source/*.rst') + glob.glob('mood/*/*.py'),
-            'targets': ['docs/build'],
+            'targets': ['mood/docs/build'],
             'clean': [(shutil.rmtree, ["docs/build"])],
     }
 
 
 def task_test():
     return {
-            'actions': ['python3 -m unittest server_test.py'],
+            'actions': ['python3 -m unittest server_test.py', 'python3 -m unittest client_test.py'],
             'task_dep': ['i18n'],
             'doc': 'Test client and server.',
     }
@@ -75,7 +75,7 @@ def task_del_uncommited():
 
 def task_sdist():
     return {
-            'actions': ['python -m build -s -n'],
+            'actions': ['python3 -m build -s -n'],
             'task_dep': ['del_uncommited'],
             'doc': 'Generate source distribution',
             }
@@ -83,7 +83,7 @@ def task_sdist():
 
 def task_wheel():
     return {
-            'actions': ['python -m build -w'],
+            'actions': ['python3 -m build -w'],
             'task_dep': ['i18n', 'gen_html'],
             'doc': 'Generate wheel',
             }

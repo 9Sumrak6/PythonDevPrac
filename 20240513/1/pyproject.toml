@@ -10,3 +10,6 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.package-dir]
 mood = "mood"
+
+[tool.setuptools.package-data]
+mood = ["mood/server/*/*/*.mo", "mood/docs/*"]
