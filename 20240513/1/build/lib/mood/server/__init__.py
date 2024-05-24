@@ -7,11 +7,11 @@ import random
 import gettext
 import locale
 
-from ..common import jgsbat, weapons
+from ..common import jgsbat, weapons, path_transl
 
 
 LOCALES = {
-    ("ru_RU", "UTF-8"): gettext.translation("mood", "po1", ["ru_RU.UTF-8"], fallback=True),
+    ("ru_RU", "UTF-8"): gettext.translation("mood", path_transl, ["ru_RU.UTF-8"], fallback=True),
     ("en_US", "UTF-8"): gettext.NullTranslations(),
     ("en_GB", "UTF-8"): gettext.NullTranslations(),
 }
