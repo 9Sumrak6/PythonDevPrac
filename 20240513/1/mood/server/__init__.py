@@ -355,7 +355,7 @@ async def chat(reader, writer):
 
     for i in clients_names:
         if i != name:
-            await clients_conns[i].put(_(name, "{} joined the game.").format(name))
+            await clients_conns[i].put(_(i, "{} joined the game.").format(name))
 
     clients_conns[name] = asyncio.Queue()
 
@@ -476,4 +476,5 @@ async def run_server():
 
 def main():
     """Start server."""
+    print(path_transl)
     asyncio.run(run_server())
