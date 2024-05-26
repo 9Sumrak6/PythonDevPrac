@@ -73,7 +73,6 @@ class Mood():
 
         :param args: string with args
         """
-        # print(args)
         args = shlex.split(args)
 
         name, hello, hp, m_x, m_y = self.invalid_mon
@@ -190,10 +189,12 @@ class Mood():
 
             msg_all[i] = ans
 
+        cur_len = len(self.taken_cows)
+
         self.field[m_y][m_x] = {'hello': hello, 'hp': hp, 'name': name}
         self.taken_cows.add((m_y, m_x))
 
-        return (len(self.taken_cows), msg_all)
+        return (cur_len, msg_all)
 
     def attack(self, client, args):
         """
@@ -259,7 +260,7 @@ class Mood():
 
     async def move_random_mon(self):
         """Move random monster to the next cell by timer."""
-        await asyncio.sleep(30)
+        await asyncio.sleep(10)
 
         while True:
             if len(self.taken_cows) == 0 or len(self.taken_cows) == SIZE ** 2:
@@ -276,7 +277,7 @@ class Mood():
                 new_cell = (cell[0], (cell[1] + 1) % SIZE)
             else:
                 new_cell = (cell[0], (cell[1] - 1) % SIZE)
-
+            # print(cell, new_cell)
             if self.field[new_cell[0]][new_cell[1]] != 0:
                 continue
 
@@ -403,7 +404,7 @@ async def chat(reader, writer):
                     if type(ans) is str:
                         writer.write(ans.encode())
                     else:
-                        if cur_cow_num > 0 and moving is True:
+                        if cur_cow_num == 0 and moving is True:
                             mon_task = asyncio.create_task(mood.move_random_mon())
                             fl = True
 
@@ -476,5 +477,4 @@ async def run_server():
 
 def main():
     """Start server."""
-    print(path_transl)
     asyncio.run(run_server())
