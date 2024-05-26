@@ -49,85 +49,85 @@ msgstr[0] "({}, {}) на {} с фразой \"{}\" с {} очком здоров
 msgstr[1] "({}, {}) на {} с фразой \"{}\" с {} очками здоровья"
 msgstr[2] "({}, {}) на {} с фразой \"{}\" с {} очками здоровья"
 
-#: mood/server/__init__.py:207
+#: mood/server/__init__.py:209
 msgid "Type args"
 msgstr "Напечатайте параметры"
 
-#: mood/server/__init__.py:212
+#: mood/server/__init__.py:214
 msgid "No monster here"
 msgstr "Здесь нет такого монстра"
 
-#: mood/server/__init__.py:215
+#: mood/server/__init__.py:217
 msgid "No {} here"
 msgstr "{} нет здесь"
 
-#: mood/server/__init__.py:220
+#: mood/server/__init__.py:222
 msgid "Invalid arguments"
 msgstr "Некорректные параметры"
 
-#: mood/server/__init__.py:226
+#: mood/server/__init__.py:228
 msgid "Unknown weapon"
 msgstr "Неизвестное оружие"
 
-#: mood/server/__init__.py:240
+#: mood/server/__init__.py:242
 msgid " attacked {},  damage {} hp\n"
 msgid_plural " attacked {},  damage {} hp\n"
 msgstr[0] " атаковал {},  снял {} очко здоровья\n"
 msgstr[1] " атаковал {},  снял {} очка здоровья\n"
 msgstr[2] " атаковал {},  снял {} очков здоровья\n"
 
-#: mood/server/__init__.py:245
+#: mood/server/__init__.py:247
 msgid "{} died"
 msgstr "{} умер"
 
-#: mood/server/__init__.py:250
+#: mood/server/__init__.py:252
 msgid "{} now has {} hp."
 msgid_plural "{} now has {} hp."
 msgstr[0] "У {} тeперь {} очко здоровья."
 msgstr[1] "У {} тeперь {} очка здоровья."
 msgstr[2] "У {} тeперь {} очков здоровья."
 
-#: mood/server/__init__.py:306
+#: mood/server/__init__.py:308
 msgid "{} moved one cell up"
 msgstr "{} перешел на одну клетку вверх."
 
-#: mood/server/__init__.py:308
+#: mood/server/__init__.py:310
 msgid "{} moved one cell down"
 msgstr "{} перешел на одну клетку вниз."
 
-#: mood/server/__init__.py:310
+#: mood/server/__init__.py:312
 msgid "{} moved one cell right"
 msgstr "{} перешел на одну клетку вправо."
 
-#: mood/server/__init__.py:312
+#: mood/server/__init__.py:314
 msgid "{} moved one cell left"
 msgstr "{} перешел на одну клетку влево."
 
-#: mood/server/__init__.py:357
+#: mood/server/__init__.py:359
 msgid "{} joined the game."
 msgstr "{} присоединился к игре."
 
-#: mood/server/__init__.py:386
+#: mood/server/__init__.py:388
 msgid "Command is incorrect.\n"
 msgstr "Команда некорректна.\n"
 
-#: mood/server/__init__.py:393
+#: mood/server/__init__.py:395
 msgid "Set up locale: {} {}\n"
 msgstr "Установлена локаль: {} {}.\n"
 
-#: mood/server/__init__.py:396
+#: mood/server/__init__.py:398
 msgid "Invalid locale: {} {}\n"
 msgstr "Некорректная локаль: {} {}.\n"
 
-#: mood/server/__init__.py:439
+#: mood/server/__init__.py:441
 msgid "Moving monsters: on"
 msgstr "Режим блуждающих монстров: включен"
 
-#: mood/server/__init__.py:445
+#: mood/server/__init__.py:447
 msgid "Moving monsters: off"
 msgstr "Режим блуждающих монстров: выключен"
 
-#: mood/server/__init__.py:460
+#: mood/server/__init__.py:462
 msgid "{} left the game."
 msgstr "{} покинул игру."
 
