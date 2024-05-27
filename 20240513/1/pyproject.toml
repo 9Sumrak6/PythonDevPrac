@@ -8,6 +8,10 @@ description = "PVE adventure multi-user dungeoun game"
 requires = ['setuptools']
 build-backend = "setuptools.build_meta"
 
+[project.scripts]
+server = "mood.server.__main__:main"
+client = "mood.client.__main__:main"
+
 [tool.setuptools.package-dir]
 mood = "mood"
 
