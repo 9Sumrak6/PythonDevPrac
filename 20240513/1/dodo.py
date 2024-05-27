@@ -5,7 +5,7 @@ import shutil
 from doit.task import clean_targets
 
 
-DOIT_CONFIG = {'default_tasks': ['html']}
+DOIT_CONFIG = {'default_tasks': ['test', 'sdist', 'wheel', 'rm_db']}
 
 
 def task_gen_pot():
