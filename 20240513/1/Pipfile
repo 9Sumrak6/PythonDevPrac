@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 python-cowsay = "*"
+setuptools = "*"
 
 [dev-packages]
 flake8 = "*"
@@ -12,6 +13,8 @@ pydocstyle = "*"
 sphinx = "*"
 babel = "*"
 doit = "*"
+build = "*"
+setuptools = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.12"
